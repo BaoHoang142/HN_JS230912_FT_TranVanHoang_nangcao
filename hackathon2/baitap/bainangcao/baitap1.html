@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container__top {
+            width: 100vw;
+            height: 200px;
+            background-color: red;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 25px;
+            border: 2px solid white;
+            border-radius: 10px;
+
+        }
+
+        .container__mid {
+            width: 100vw;
+            height: 300px;
+            border-radius: 10px;
+        }
+
+        .container__bot {
+            width: 100vw;
+            height: 100px;
+            background-color: rgb(150, 0, 0);
+            border: 2px solid white;
+            border-radius: 10px;
+        }
+
+        p {
+            margin-top: 40px;
+            margin-left: 40px;
+        }
+
+        h1 {
+            margin: 80px 300px;
+            font-size: 50px;
+        }
+
+        .stopWatch {
+            display: block;
+            width: 18%;
+            text-align: center;
+            font-size: 25px;
+            margin-right: 0;
+            background-color: rgb(178, 0, 0);
+            
+        }
+        .stopWatch__p {
+            margin-left: -30px;
+        }
+        #time {
+            
+            margin-left: -40px;
+        }
+        .button {
+            display: flex;
+        }
+
+        .stopWatch .stopWatch__p,
+        span,
+        .button {
+            margin-top: 30px;
+        }
+        .start,.reset {
+            width: 80px;
+            height: 30px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .start {
+            margin-left: 20px;
+            
+        }
+        .reset {
+            margin-left: 40px;
+        }
+        ul li {
+            /* width: 100%; */
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            /* margin-top: 20px; */
+            height: 50px;
+            border: 1px solid  #F1F1F1;
+            border-radius: 5px;
+        }
+        ul li img {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            opacity: 0.3;
+            margin-left: 20px;
+        }
+
+        button {
+            width: 50px;
+            height: 20px;
+        }
+
+        .Points {
+            margin-right: 40px;
+            margin-top: 5px;
+            width: 210px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .namePlayer {
+            display: flex;
+            width: 200px;
+            margin-left: 20px;
+            justify-content: space-evenly;
+        }
+
+        .container__bot {
+            display: flex;
+            justify-content: center;
+
+        }
+
+        #input {
+            width: 80%;
+            margin: 20px 30px;
+            border-radius: 5px;
+            background-color: black;
+            opacity: 0.3;
+            color: white;
+        }
+
+        #btn {
+            width: 20%;
+            margin: 20px 30px;
+            height: 60px;
+            border-radius: 5px;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+
+        }
+
+        i {
+            cursor: pointer;
+            margin-top: 8px;
+            opacity: 0.6;
+            margin-left: -20px;
+        }
+
+        .dataName {
+            font-size: 20px;
+            margin-top: 8px;
+            margin-left: -1000px;
+        }
+        .decrease,.increase {
+            width: 70px;
+            height: 100%;
+            background-color: #F1F1F1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .Points span {
+            width: 70px;
+            height: 100%;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container__top">
+        <div>
+            <p>
+                <span><strong>Players:</strong></span>
+                <span ><strong id="totalPlayers">3</strong></span>
+            </p>
+            <p>
+                <span><strong>Total Points:</strong></span>
+                <span ><strong id="totalPoints">0</strong></span>
+            </p>
+        </div>
+        <h1>Rikkei Scoreboard </h1>
+        <div class="stopWatch">
+            <div class="stopWatch__p"><strong>Stopwatch</strong></div>
+            <span id="time"><strong>0</strong></span>
+            <div class="button">
+                <button onclick="clickStart" class="start">START</button>
+                <button onclick="clickReset" class="reset">RESET</button>
+            </div>
+        </div>
+    </div>
+    <div class="container__mid">
+        <ul class="listPlayer">
+
+        </ul>
+    </div>
+    <div class="container__bot">
+        <input id="input" type="text" placeholder="Enter a player's name">
+        <button id="btn" onclick="addPlayer()">Add player</button>
+    </div>
+    <!-- Js -->
+    <script>
+        // tạo id bất kì
+        function uuid() {
+            return Math.floor(Math.random() * 1234567);
+        }
+        // add thêm player
+
+        function addPlayer() {
+            let player = JSON.parse(localStorage.getItem("players")) || [];
+            let inputValue = document.getElementById("input").value;
+            let obj = {
+                name: inputValue,
+                count: 0,
+                id: uuid()
+            }
+            player.push(obj);
+            localStorage.setItem("players", JSON.stringify(player));
+            document.getElementById("input").value = "";
+            listPlayer()
+        }
+        // hiển thị listPlayer
+        function listPlayer() {
+            let data = JSON.parse(localStorage.getItem("players")) || [];
+            let text = "";
+            let total = 0;
+            for (let i = 0; i < data.length; i++) {
+                text +=
+                    `
+                            <li>
+                                <div class="namePlayer">
+                                    <i onclick="deletePlayer(${data[i].id})" class="fa-solid fa-xmark"></i>
+                                    <img src="./icon/icons8-crown-50.png" alt="">
+                                </div>
+                                <h3 class = "dataName"> ${data[i].name}</h3>
+
+                                <div class="Points">
+                                    <button onclick="handleDown(${data[i].id})" class="decrease">-</button>
+                                    <div id="score"><strong> ${data[i].count} </strong></div>
+                                    <button onclick="handleUp(${data[i].id})" class="increase">+</button>
+                                </div>
+
+                            </li>
+                        
+                        `
+                        total += data[i].count
+            }
+            document.getElementsByClassName("listPlayer")[0].innerHTML = text
+            document.getElementById("totalPlayers").innerHTML = data.length;
+            document.getElementById("totalPoints").innerHTML = total;
+        }
+        listPlayer()
+        totalPlayer()
+        // tăng hạ điểm
+        function handleUp(id) {
+            let upPoints = JSON.parse(localStorage.getItem("players")) || [];
+            for (let i = 0; i < upPoints.length; i++) {
+                if (upPoints[i].id == id) {
+                    upPoints[i].count=++upPoints[i].count;
+                    localStorage.setItem("players", JSON.stringify(upPoints));
+                    listPlayer()
+                }       
+            } 
+        }
+        handleUp()
+        function handleDown(id) {
+            let downPoints = JSON.parse(localStorage.getItem("players")) || [];
+            for (let i =0; i < downPoints.length ; i++) {
+                if (downPoints[i].id == id && downPoints[i].count > 0) {
+                    downPoints[i].count=--downPoints[i].count;
+                    localStorage.setItem("players", JSON.stringify(downPoints));
+                    listPlayer()
+                }       
+            } 
+        }
+        handleDown()
+        // xóa player
+        function deletePlayer(id) {
+            let data = JSON.parse(localStorage.getItem("players")) || [];
+            let confirmDelete = confirm("Bạn có muốn xoá người chơi hay không?");
+            if (confirmDelete) {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].id == id) {
+                        data.splice(i, 1);
+                        localStorage.setItem("players", JSON.stringify(data));
+                        listPlayer();
+                    }
+                }
+            }
+        }
+        // timer
+        function startWatch() {
+           let a= setInterval(() => {
+                document.getElementsByClassName("time")[0].innerHTML = ++document.getElementsByClassName("time")[0].innerHTML;
+            }, 1000);
+        }
+        // function restWatch() {
+        //     document.getElementsByClassName("time")[0].innerHTML =0;
+        // }
+        
+    </script>
+</body>
+
+</html>

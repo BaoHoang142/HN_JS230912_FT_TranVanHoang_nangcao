@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    
+    <script>
+        for (let i = 1; i < 8; i++) {
+                for (let j = 1; j <= 10; j++) {
+                    if (((i == 1 && (j == 3 || j == 4 || j == 8 || j == 9))
+                        || (i == 2 && (j == 2 || j == 5 || j == 7 || j == 10))
+                        || (i == 3 && (j == 2 || j == 6 || j == 10))
+                        || (i == 4 && (j == 3 || j == 9))
+                        || (i == 5 && (j == 4 || j == 8))
+                        || (i == 6 && (j == 5 || j == 7))
+                        || (i == 7 && (j == 6))
+                    )) {
+                        document.write(" * ");
+
+                    } else {
+                        document.write("&nbsp ");
+                    }
+
+                }
+                document.write(`<br>`)
+            }
+           
+        // for (let i = 1; i < 14; i++) {
+        //         for (let j = 1; j <= 14; j++) {
+        //             if (((i == 1 && (j == 3 || j == 4|| j == 5|| j == 9 || j == 10 || j == 11))
+        //                 || (i == 2 && (j == 2 || j == 6|| j == 8 || j == 12 ))
+        //                 || (i == 3 && (j == 1|| j == 7 || j == 13 ))
+        //                 || (i == 4 && (j == 1 || j == 13))
+        //                 || (i == 5 && (j == 1 || j == 13))
+        //                 || (i == 6 && (j == 1 || j == 13))
+        //                 || (i == 7 && (j == 1 || j == 13))
+        //                 || (i == 8 && (j == 2 || j == 12))
+        //                 || (i == 9 && (j == 3 || j == 11))
+        //                 || (i == 10 && (j == 4 || j == 10))
+        //                 || (i == 11 && (j == 5 || j == 9))
+        //                 || (i == 12 && (j == 6 || j == 8))
+        //                 || (i == 13 && (j == 7 ))
+                        
+        //             )) {
+        //                 document.write(" * ");
+
+        //             } else {
+        //                 document.write("&nbsp ");
+        //             }
+
+        //         }
+        //         document.write(`<br>`)
+        //     }
+           
+
+
+    </script>
+</body>
+</html>
